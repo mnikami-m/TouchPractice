@@ -5,27 +5,33 @@
     <meta name="viewport"
           content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-
-    <script>
-        window.onload = () => {
-            //タッチ開始
-            document.getElementById("content1").addEventListener('touchstart', logTouchStart);
-            //タッチ終了
-            document.getElementById("content1").addEventListener('touchend', logTouchEnd);
-        };
-
-        function logTouchStart() {
-            alert("タッチスタート！！");
-        }
-
-        function logTouchEnd() {
-            alert("タッチエンド！！");
-        }
-    </script>
+    <title>Matrix Text Rain</title>
 </head>
-<body>
-<h1>JavaScriptレシピ</h1>
-<section id="content1">ここをたっち</section>
+<body style="margin: 0">
+<canvas id="q"></canvas>
 </body>
+<script type="text/javascript">
+    //const q = document.getElementById('q');
+    const width = q.width = window.innerWidth;  //ブラウザの横幅
+    const height = q.height = window.innerHeight;    //ブラウザの高さ
+    const letters = Array(256).join(1).split('');
+
+    //降らせる文字列(日本語もOK)
+    const matrix = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456789@#$%^&*()*&^%";
+
+    const draw = () => {
+        q.getContext('2d').fillStyle = 'rgba(0, 0, 0, .05)';
+        q.getContext('2d').fillRect(0, 0, width, height);
+        q.getContext('2d').fillStyle = '#0F0';
+        letters.map(function (y_pos, index) {
+            let text = Math.floor(Math.random() * 10);
+            text = matrix[Math.floor(Math.random() * matrix.length)];
+            let x_pos = index * 10;
+            q.getContext('2d').fillText(text, x_pos, y_pos);
+            q.getContext('2d').font = "12px 'Monaco'";
+            letters[index] = (y_pos > 0 + Math.random() * 1e4) ? 0 : y_pos + 10;
+        });
+    };
+    setInterval(draw, 30);
+</script>
 </html>
